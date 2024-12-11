@@ -44,6 +44,7 @@ fn main() -> Result<(), Error> {
     let config = load_config::<BTCTimeLockConfig>(&ckb_tx.as_reader())?;
     let unlock_witness = fetch_unlock_from_witness()?;
     let btc_tx_proof = unlock_witness.btc_tx_proof().raw_data();
+    // * 加载 spv cell 中的数据
     check_btc_tx_exists(
         &config.btc_lc_type_hash(),
         &lock_args.btc_txid(),
@@ -71,6 +72,8 @@ fn fetch_unlock_from_witness() -> Result<BTCTimeUnlock, Error> {
     }
 }
 
+// * 确保把 time lock 锁的 cell 变成 owner lock script 锁的 cell 后，
+// * 输入的 cell 和输出的 cell 的 capacity 和 type 都相同
 fn check_output_cells(lock_args: &BTCTimeLock) -> Result<(), Error> {
     let script_hash = load_script_hash()?;
     // iter btc time lock inputs

@@ -159,6 +159,7 @@ fn verify_unlock(
     btc_tx: &BTCTx,
     ckb_tx: &TransactionReader,
 ) -> Result<(), Error> {
+    // * 检查是否传入正确的 out_point
     // check bitcoin transaction inputs unlock RGB++ cell
     let expected_out_point: (Byte32, u32) = (lock_args.btc_txid(), lock_args.out_index().unpack());
     let is_found = btc_tx

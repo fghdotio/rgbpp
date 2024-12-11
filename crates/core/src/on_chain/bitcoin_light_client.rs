@@ -23,6 +23,7 @@ pub fn check_btc_tx_exists(
             }
         })
         .ok_or(Error::SpvClientNotFound)?;
+    // * 加载 spv cell 中的数据
     let data = load_cell_data(index, Source::CellDep).map_err(|_| Error::SpvClientNotFound)?;
     let client = ckb_bitcoin_spv_verifier::types::packed::SpvClient::from_slice(&data)
         .map_err(|_| Error::SpvClientMalformed)?;
